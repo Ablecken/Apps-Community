@@ -18,7 +18,10 @@
         extport: '8484'
         intport2: '32400'
         extport2: '32400'
-        image: 'housewrecker/gaps'
+        image: 'housewrecker/gaps' 
+        pg_env:
+          PUID: 1000
+          PGID: 1000
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
