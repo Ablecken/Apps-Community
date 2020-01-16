@@ -16,8 +16,8 @@
         pgrole: 'gaps'
         intport: '8484'
         extport: '8484'
-		intport2: '32400'
-		extport2: '32400'
+        intport2: '32400'
+        extport2: '32400'
         image: 'housewrecker/gaps'
 
     # CORE (MANDATORY) ############################################################
