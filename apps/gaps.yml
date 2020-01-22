@@ -16,10 +16,7 @@
         pgrole: 'gaps'
         intport: '8484'
         extport: '8484'
-        image: 'housewrecker/gaps' 
-        pg_env:
-          PUID: 1000
-          PGID: 1000
+        image: 'housewrecker/gaps:latest-no-ssl' 
 
     # CORE (MANDATORY) ############################################################
     - name: 'Including cron job'
@@ -42,6 +39,18 @@
           traefik.frontend.headers.contentTypeNosniff: 'true'
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
+		  
+    - name: 'Setting PG Volumes'
+      set_fact:
+        pg_volumes:
+          - '/etc/localtime:/etc/localtime:ro'
+          - '/opt/appdata/{{pgrole}}:/usr/data'
+
+    - name: 'Setting PG ENV'
+      set_fact:
+        pg_env:
+          PUID: '1000'
+          PGID: '1000'
 
     # MAIN SCRIPT ##############################################################
 
@@ -52,6 +61,7 @@
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
+        volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         restart_policy: unless-stopped
         networks:
